@@ -17,6 +17,11 @@ When("the user creates a new student",()=>{
 
   // this method shows the validation in api testing
         expect(response.status).to.eq(201)
+        //this is how we check the property
+        expect(response.body).to.have.property("id")
+        expect(response.body).to.have.property("name")
+        expect(response.body).to.have.property("job")
+        //this is how we check the value
         expect(response.body.name).to.eq("Vinod panzade")
         expect(response.body.job).to.eq("Test engineer")
         expect(response.body.id).to.exist
@@ -30,6 +35,10 @@ When("the user updates the student using PUT",()=>{
         "name":'Musaib',
         "job":'Developer'
     }).then((response)=>{
+        //check the property of schema
+        expect(response.body).to.have.property("name")
+        expect(response.body).to.have.property("job")
+        //check the value of schema 
         expect(response.status).to.eq(200)
         expect(response.body.name).to.eq("Musaib")
         expect(response.body.job).to.eq("Developer")

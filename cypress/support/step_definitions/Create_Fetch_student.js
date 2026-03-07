@@ -20,6 +20,7 @@ Then("the student created successfully",()=>{
 When("the user get a student ID",()=>{
     cy.Get_id(studentId).then((response)=>{
         expect(response.status).to.eq(200)
+        
         cy.log(JSON.stringify(response.body))
     })
 })
