@@ -19,6 +19,11 @@ pipeline {
                 bat 'npm install'
             }
         }
+        stage('Install Cypress Binary') {
+        steps {
+        bat 'npx cypress install'
+        }
+        }
 
         stage('Run Cypress Tests') {
             steps {
