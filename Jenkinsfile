@@ -31,17 +31,26 @@ pipeline {
             }
         }
 
-        stage('Generate Report') {
-            steps {
-                bat 'npm run report:merge'
-                bat 'npm run report:generate'
-            }
-        }
+        // stage('Generate Report') {
+        //     steps {
+        //         bat 'npm run report:merge'
+        //         bat 'npm run report:generate'
+        //     }
+        // }
 
-        stage('Archive Reports') {
-            steps {
-                archiveArtifacts artifacts: 'cypress/reports/**', fingerprint: true
-            }
+        // stage('Archive Reports') {
+        //     steps {
+        //         archiveArtifacts artifacts: 'cypress/reports/**', fingerprint: true
+        //     }
+        // }
+
+    }
+    post {
+        success {
+            echo 'Testing is done'
+        }
+        failure{
+            echo 'Testing is not done'
         }
     }
 }
