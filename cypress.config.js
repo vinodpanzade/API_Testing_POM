@@ -10,8 +10,8 @@
 //   },
 // });
 
-
-//for gherkin setupconst { defineConfig } = require("cypress");
+//for gherkin
+const { queryDB } = require("./cypress/support/db");
 const { defineConfig } = require("cypress");
 const createBundler = require("@bahmutov/cypress-esbuild-preprocessor");
 const addCucumberPreprocessorPlugin =
@@ -20,14 +20,13 @@ const createEsbuildPlugin =
   require("@badeball/cypress-cucumber-preprocessor/esbuild").createEsbuildPlugin;
 
 module.exports = defineConfig({
-
   // 🔴 ADDED THIS PART (for mochawesome reports)
   reporter: "mochawesome",
   reporterOptions: {
     reportDir: "cypress/reports",
     overwrite: false,
     html: false,
-    json: true
+    json: true,
   },
 
   e2e: {
@@ -40,8 +39,14 @@ module.exports = defineConfig({
         "file:preprocessor",
         createBundler({
           plugins: [createEsbuildPlugin(config)],
-        })
+        }),
       );
+      // this is for the my sql connection 
+      on("task", {
+        queryDb(query) {
+          return queryDB(query);
+        },
+      });
 
       return config;
     },

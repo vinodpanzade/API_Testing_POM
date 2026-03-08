@@ -2,18 +2,21 @@
   "name": "api-testing-pom",
   "version": "1.0.0",
   "main": "index.js",
- "scripts": {
-  "clean:reports": "del /Q cypress\\reports\\*.json 2>nul",
-  "test": "cypress run",
-  "cy:open": "cypress open",
-  "report:merge": "mochawesome-merge cypress/reports/*.json > cypress/reports/merged.json",
-  "report:generate": "marge cypress/reports/merged.json --reportDir cypress/reports --reportFilename index",
-  "report": "npm run clean:reports && npm run test && npm run report:merge && npm run report:generate"
-},
+  "scripts": {
+    "clean:reports": "del /Q cypress\\reports\\*.json 2>nul",
+    "test": "cypress run",
+    "cy:open": "cypress open",
+    "report:merge": "mochawesome-merge cypress/reports/*.json > cypress/reports/merged.json",
+    "report:generate": "marge cypress/reports/merged.json --reportDir cypress/reports --reportFilename index",
+    "report": "npm run clean:reports && npm run test && npm run report:merge && npm run report:generate"
+  },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
+    "ajv": "^8.18.0",
+    "ajv-formats": "^3.0.1",
     "cypress": "^15.11.0",
     "mochawesome": "^7.1.4",
     "mochawesome-merge": "^4.4.1",
@@ -21,6 +24,7 @@
   },
   "dependencies": {
     "@badeball/cypress-cucumber-preprocessor": "^23.2.1",
-    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8"
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "mysql2": "^3.19.0"
   }
 }

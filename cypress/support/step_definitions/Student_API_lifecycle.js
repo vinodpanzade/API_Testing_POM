@@ -2,13 +2,38 @@ import { Given ,When ,Then} from "@badeball/cypress-cucumber-preprocessor";
 
 let studentId;
 
-Given("the user should be logged in",()=>{
-    cy.Login({
-     email:'pooja@test.com',
-     password:'Pooja@123'
-  });
-})
+//in below scenario we are checking this is created or present or not in our db.json file 
+Given("the user should be logged in", () => {
 
+  const loginData = {
+    email: "pooja@test.com",
+    password: "Pooja@123"
+  }
+
+  cy.Login(loginData).then((response) => {
+
+   expect(response.status).to.eq(201)
+   cy.task("queryDb", `SELECT * FROM users WHERE email='${loginData.email}'`)
+  .then((result) => {
+
+    expect(result.length).to.be.greaterThan(0)
+    expect(result[0].email).to.eq(loginData.email)
+
+  })
+
+ // this is how we are verifying the student is actualy present inside the data base or not 
+//   const userId = response.body.id
+//   cy.log(userId)
+//   cy.request("GET", `http://localhost:3000/students/${userId}`).then((res) => {
+
+//     expect(res.status).to.eq(200)
+//     expect(res.body.email).to.eq(loginData.email)
+
+//   })
+
+}   )   
+
+})
 When("the user creates a new student",()=>{
       cy.Post({
         "name":'Vinod panzade',

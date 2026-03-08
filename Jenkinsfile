@@ -26,11 +26,6 @@ pipeline {
             }
         }
 
-        stage('Clean Reports') {
-            steps {
-                bat 'if exist cypress\\reports del /Q cypress\\reports\\*.json'
-            }
-        }
 
         stage('Run Cypress Tests') {
             steps {
@@ -38,21 +33,14 @@ pipeline {
             }
         }
 
-        stage('Generate Report') {
-            steps {
-                bat 'npm run report:merge'
-                bat 'npm run report:generate'
-            }
-        }
     }
 
     post {
-        always {
-            publishHTML([
-                reportDir: 'cypress/reports',
-                reportFiles: 'index.html',
-                reportName: 'Cypress Test Report'
-            ])
-        }
+      success{
+        echo 'Testing is done'
+      }
+      failure{
+        echo 'Testing is not done'
+      }
     }
 }

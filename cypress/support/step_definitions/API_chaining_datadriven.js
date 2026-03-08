@@ -1,12 +1,23 @@
 import {Given,When,Then} from "@badeball/cypress-cucumber-preprocessor";
+import { faker } from '@faker-js/faker'
 
 let studentIds=[]
+const userData = {
+  email: faker.internet.email(),
+  password: faker.internet.password()
+}
 
 Given("user have to login",()=>{
-    cy.fixture('Users').then((data)=>{
+    // cy.fixture('Users').then((data)=>{
 
-        cy.Login(data);
-    })
+    //     cy.Login(data);
+    // })
+    cy.log(userData)
+    cy.log("first register the user")
+    cy.Register(userData);
+    
+    cy.log("login the user")
+    cy.Login(userData);
 })
 
 When("now user will create the student",()=>{
