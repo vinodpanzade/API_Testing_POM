@@ -19,10 +19,17 @@ pipeline {
                 bat 'npm install'
             }
         }
+
         stage('Install Cypress Binary') {
-             steps {
-                   bat 'npx cypress install'
-             }
+            steps {
+                bat 'npx cypress install'
+            }
+        }
+
+        stage('Clean Reports') {
+            steps {
+                bat 'if exist cypress\\reports del /Q cypress\\reports\\*.json'
+            }
         }
 
         stage('Run Cypress Tests') {
@@ -37,26 +44,15 @@ pipeline {
                 bat 'npm run report:generate'
             }
         }
-
-
     }
+
     post {
-        success {
-            echo 'Testing is done'
+        always {
+            publishHTML([
+                reportDir: 'cypress/reports',
+                reportFiles: 'index.html',
+                reportName: 'Cypress Test Report'
+            ])
         }
-        failure{
-            echo 'Testing is not done'
-        }
-               always {
-      script {
-        publishHTML([
-        reportDir: 'cypress/reports',
-        reportFiles: '*.html',
-        reportName: 'Cypress Test Report',
-        keepAll: true,
-        alwaysLinkToLastBuild: true
-           ])
-          }
-       }
     }
 }
