@@ -38,11 +38,6 @@ pipeline {
             }
         }
 
-        stage('Archive Reports') {
-            steps {
-                archiveArtifacts artifacts: 'cypress/reports/**', fingerprint: true
-            }
-        }
 
     }
     post {
@@ -52,5 +47,16 @@ pipeline {
         failure{
             echo 'Testing is not done'
         }
+               always {
+      script {
+        publishHTML([
+        reportDir: 'cypress/reports',
+        reportFiles: '*.html',
+        reportName: 'Cypress Test Report',
+        keepAll: true,
+        alwaysLinkToLastBuild: true
+           ])
+          }
+       }
     }
 }
